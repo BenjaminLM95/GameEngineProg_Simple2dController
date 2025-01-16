@@ -5,22 +5,24 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController characterController;
-    private Vector2 moveDirection = new Vector2(0.00f, -1.00f);
+    private Vector2 moveDirection = Vector2.zero; 
     public float moveSpeed = 2f; 
-    // Start is called before the first frame update
-    void Start()
-    {
-        characterController = this.GetComponent<CharacterController>(); 
-    }
-
+    
     private void Awake()
     {
-        
+        characterController = this.GetComponent<CharacterController>();
+        Actions.MoveEvent += UpdateMoveVector;
     }
     // Update is called once per frame
     void Update()
     {
-        
+        HandlePlayerMovement(moveDirection); 
+    }
+
+    private void UpdateMoveVector(Vector2 InputVector)
+    {
+        moveDirection = InputVector;
+
     }
 
     public void HandlePlayerMovement(Vector2 moveDir) 
@@ -28,12 +30,12 @@ public class PlayerMovement : MonoBehaviour
         characterController.Move(moveDir * Time.deltaTime * moveSpeed);
     }
 
-    private void OnEnable()
+    /*private void OnEnable()
     {
         Actions.MoveEvent += HandlePlayerMovement;
         
     }
-
+    */ 
     private void OnDisable()
     {
         Actions.MoveEvent -= HandlePlayerMovement; 

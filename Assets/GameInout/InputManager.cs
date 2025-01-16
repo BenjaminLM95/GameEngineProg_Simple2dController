@@ -20,10 +20,24 @@ public class InputManager : MonoBehaviour, GameInput.IPlayerActions
         Debug.Log("Receiving move Input : " + context.ReadValue<Vector2>());
         Actions.MoveEvent?.Invoke(context.ReadValue<Vector2>()); 
     }
+
+    public void OnInteraction(InputAction.CallbackContext context)
+    {
+
+        while(context.performed) 
+        {
+            Actions.GrowCircle?.Invoke();
+            Debug.Log("GrowCircle"); 
+        }
+    }
 }
 
 
 public static class Actions
 {
     public static Action<Vector2> MoveEvent;
+    public static Action GrowCircle; 
+    
 }
+
+
