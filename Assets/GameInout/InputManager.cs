@@ -6,13 +6,15 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour, GameInput.IPlayerActions
 {
-    private GameInput gameInput; 
+    private GameInput gameInput;
+    private bool right; 
 
     void Awake() 
     {
         gameInput = new GameInput();
         gameInput.Player.Enable();
-        gameInput.Player.SetCallbacks(this); 
+        gameInput.Player.SetCallbacks(this);
+        right = true; 
     }
     
     public void OnMove(InputAction.CallbackContext context)
@@ -24,10 +26,37 @@ public class InputManager : MonoBehaviour, GameInput.IPlayerActions
     public void OnInteraction(InputAction.CallbackContext context)
     {
 
-        while(context.performed) 
+        if(context.started) 
         {
+            Actions.TargetingCowBoy?.Invoke(); 
+        }
+
+        if (context.performed) 
+        {
+            Actions.ChangeSprite?.Invoke();
+            Debug.Log("ChangeSprite");
+
             Actions.GrowCircle?.Invoke();
-            Debug.Log("GrowCircle"); 
+            Debug.Log("GrowCircle");
+        }
+
+
+        if (context.canceled) 
+        {            
+            Actions.StopGrowing?.Invoke();
+
+            if (right)
+            {
+                Actions.ChangeSprite?.Invoke();
+                Debug.Log("ChangeSprite");
+                right = false;
+            }
+            else
+            {
+                Actions.ReturnSprite?.Invoke();
+                Debug.Log("ReturnSprite");
+                right = true;
+            }
         }
     }
 }
@@ -36,7 +65,11 @@ public class InputManager : MonoBehaviour, GameInput.IPlayerActions
 public static class Actions
 {
     public static Action<Vector2> MoveEvent;
-    public static Action GrowCircle; 
+    public static Action GrowCircle;
+    public static Action StopGrowing; 
+    public static Action ChangeSprite;
+    public static Action ReturnSprite;
+    public static Action TargetingCowBoy; 
     
 }
 

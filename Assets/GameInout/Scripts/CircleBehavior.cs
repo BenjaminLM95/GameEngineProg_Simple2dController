@@ -5,27 +5,24 @@ using UnityEngine;
 
 public class CircleBehavior : MonoBehaviour
 {
-    public Vector3 objSize = Vector3.zero;
-    public bool grow; 
+    private Vector3 objSize = Vector3.zero;
+    private bool grow;
+    private float GrowSpeed; 
     // Start is called before the first frame update
     void Start()
     {
         objSize = this.gameObject.transform.localScale;
         grow = true;
-        Actions.GrowCircle += growing; 
+        GrowSpeed = 1; 
+        Actions.GrowCircle += growing;
+        Actions.StopGrowing += stopGrowing;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        //growing(); 
-    }
-
-    public void growing() 
-    {
-        if (grow)
+        if(grow)
         {
-            objSize *= (1 + (Time.deltaTime * 0.5f));
+            objSize *= GrowSpeed;
             this.transform.localScale = objSize;
         }
 
@@ -36,9 +33,20 @@ public class CircleBehavior : MonoBehaviour
         }
     }
 
+    public void growing() 
+    {
+        GrowSpeed = 1 + (0.25f * Time.deltaTime); 
+    }
+
+    public void stopGrowing() 
+    {
+        GrowSpeed = 1; 
+    }
+
     private void OnDisable()
     {
         Actions.GrowCircle -= growing;
+        Actions.StopGrowing -= stopGrowing;
     }
 
 }
