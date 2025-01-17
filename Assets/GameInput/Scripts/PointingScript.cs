@@ -11,18 +11,18 @@ public class PointingScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cowboyPosition = cowboy.transform.position + offset;
+        cowboyPosition = cowboy.transform.position + offset;  // Get the position of the player 
         Actions.TargetingCowBoy += GoToCowBoy; 
     }
 
     // Update is called once per frame
     void Update()
     {
-        cowboyPosition = cowboy.transform.position;
+        cowboyPosition = cowboy.transform.position; // The position updates
     }
 
     void GoToCowBoy() 
     {
-        this.gameObject.transform.position = cowboyPosition + offset;
+        this.gameObject.transform.position = cowboyPosition + offset; // Get the player's position
     }
 }

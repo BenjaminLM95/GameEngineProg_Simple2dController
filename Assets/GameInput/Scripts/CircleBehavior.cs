@@ -28,6 +28,7 @@ public class CircleBehavior : MonoBehaviour
 
         if (objSize.x > 1.5f)
         {
+            // This stops to be very big
             grow = false;
             objSize = new Vector3(1f, 1f, 1f);
         }

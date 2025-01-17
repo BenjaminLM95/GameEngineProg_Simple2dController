@@ -65,12 +65,12 @@ public class InputManager : MonoBehaviour, GameInput.IPlayerActions
 public static class Actions
 {
     public static Action<Vector2> MoveEvent;
-    public static Action GrowCircle;
-    public static Action StopGrowing; 
-    public static Action ChangeSprite;
-    public static Action ReturnSprite;
-    public static Action TargetingCowBoy; 
-    
+    public static Action GrowCircle; //This action will be triggered with space
+    public static Action StopGrowing;  //This action will be triggered with space
+    public static Action ChangeSprite; //This action will be triggered with space
+    public static Action ReturnSprite; //This action will be triggered with space
+    public static Action TargetingCowBoy;  //This action will be triggered with space
+
 }
 
 
