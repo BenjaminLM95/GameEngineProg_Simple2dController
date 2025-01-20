@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public CharacterController characterController;
+    public Rigidbody2D playerRigidbody;
     private Vector2 moveDirection = Vector2.zero; 
     public float moveSpeed = 2f; 
     
     private void Awake()
     {
-        characterController = this.GetComponent<CharacterController>();
+        playerRigidbody = this.GetComponent<Rigidbody2D>();
         Actions.MoveEvent += UpdateMoveVector;
+        
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        HandlePlayerMovement(moveDirection); 
+        HandlePlayerMovement(); 
     }
 
     private void UpdateMoveVector(Vector2 InputVector)
@@ -25,19 +26,13 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    public void HandlePlayerMovement(Vector2 moveDir) 
-    {
-        characterController.Move(moveDir * Time.deltaTime * moveSpeed);
+    public void HandlePlayerMovement() 
+    {      
+        playerRigidbody.MovePosition(playerRigidbody.position + moveDirection * Time.fixedDeltaTime * moveSpeed); 
     }
 
-    /*private void OnEnable()
-    {
-        Actions.MoveEvent += HandlePlayerMovement;
-        
-    }
-    */ 
     private void OnDisable()
     {
-        Actions.MoveEvent -= HandlePlayerMovement; 
+        Actions.MoveEvent -= UpdateMoveVector; 
     }
 }
